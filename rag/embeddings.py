@@ -1,4 +1,3 @@
-from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from .llm import get_embedding_model
