@@ -9,8 +9,21 @@ from .embeddings import get_vector_retriever
 from .loader import load_document
 from langchain_core.messages import HumanMessage,AIMessage
 from .chain import get_retriever_chain
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="Universal RAG Assistant")
 
+origins = [
+    "https://rag-frontend-rouge.vercel.app"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # allows your frontend only
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, PUT, DELETE etc.
+    allow_headers=["*"],  # Authorization, Content-Type etc.
+)
 retriever = None
 history = []
 class QuestionRequest(BaseModel):
