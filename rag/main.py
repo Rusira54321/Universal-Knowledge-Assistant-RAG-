@@ -7,10 +7,11 @@ from .chain import get_chain
 from .embeddings import create_vector_store
 from .embeddings import get_vector_retriever
 from .loader import load_document
+from langchain_core.messages import HumanMessage,AIMessage
 app = FastAPI(title="Universal RAG Assistant")
 
 retriever = None
-
+history = []
 class QuestionRequest(BaseModel):
     question: str
 
@@ -45,10 +46,16 @@ async def ask_question(request: QuestionRequest):
     """
     Ask a question and get response using RAG chain.
     """
+    global history
     if not retriever:
         raise HTTPException(status_code=400,detail="No documents uploaded yet. Please upload documents first.")
     rag_chain = get_chain(retriever)
-    answer  = rag_chain.invoke(request.question)
+    answer  = rag_chain.invoke({
+        "question": request.question,
+        "chat_history": history
+    })
+    history.append(HumanMessage(content=request.question))
+    history.append(AIMessage(content=answer))
     return JSONResponse(content={"question": request.question, "answer": answer})
 
 
