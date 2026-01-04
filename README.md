@@ -30,10 +30,11 @@ This application allows you to upload documents (PDF, TXT, DOCX) to create a vec
 ## Installation
 
 1. Clone the repository
-
-git clone https://github.com/<your-username>/<repo-name>.git
+```
+git clone https://github.com/<your-username>/<repo-name>
+.git
 cd <repo-name>
-
+```
 2. Create a virtual environment
 ```
 python -m venv venv
