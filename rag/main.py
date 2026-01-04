@@ -8,6 +8,7 @@ from .embeddings import create_vector_store
 from .embeddings import get_vector_retriever
 from .loader import load_document
 from langchain_core.messages import HumanMessage,AIMessage
+from .chain import get_retriever_chain
 app = FastAPI(title="Universal RAG Assistant")
 
 retriever = None
@@ -49,7 +50,8 @@ async def ask_question(request: QuestionRequest):
     global history
     if not retriever:
         raise HTTPException(status_code=400,detail="No documents uploaded yet. Please upload documents first.")
-    rag_chain = get_chain(retriever)
+    history_aware_retriever = get_retriever_chain(retriever)
+    rag_chain = get_chain(history_aware_retriever)
     answer  = rag_chain.invoke({
         "question": request.question,
         "chat_history": history
