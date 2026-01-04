@@ -29,67 +29,68 @@ This application allows you to upload documents (PDF, TXT, DOCX) to create a vec
 
 ## Installation
 
-### 1. Clone the repository
+1. Clone the repository
 
-```bash
 git clone https://github.com/<your-username>/<repo-name>.git
 cd <repo-name>
+
 2. Create a virtual environment
-bash
-Copy code
+```
 python -m venv venv
 source venv/bin/activate  # Linux / Mac
 venv\Scripts\activate     # Windows
-3. Install dependencies
-bash
-Copy code
-pip install -r requirements.txt
-4. Create .env file
-Add your OpenAI API key:
+```
 
-env
-Copy code
-OPENAI_API_KEY=your_openai_api_key_here
-Usage
+3. Install dependencies
+```
+pip install -r requirements.txt
+```
+
+4. Create .env file
+```
+  Add your OpenAI API key:OPENAI_API_KEY=your_openai_api_key_here
+```
+---
+## Usage
 1. Run locally
-bash
-Copy code
+
+```
 uvicorn rag.main:app --reload --host 0.0.0.0 --port 8000
 FastAPI docs: http://127.0.0.1:8000/docs
+```
 
 2. Upload documents
+
+```
 Endpoint: POST /upload
-
 Form-data: files (multiple PDF, TXT, or DOCX)
-
 Example using curl:
+    curl -X POST "http://127.0.0.1:8000/upload" \
+    -F "files=@example.pdf" \
+    -F "files=@example.txt"
+```
 
-bash
-Copy code
-curl -X POST "http://127.0.0.1:8000/upload" \
-  -F "files=@example.pdf" \
-  -F "files=@example.txt"
 3. Ask a question
+```
 Endpoint: POST /ask
 
 JSON body:
 
-json
-Copy code
 {
   "question": "Who is Albert Einstein?"
 }
 Response:
 
-json
-Copy code
 {
   "question": "Who is Albert Einstein?",
   "answer": "Albert Einstein was a theoretical physicist who developed the theory of relativity..."
 }
-Project Structure
-bash
-Copy code
+
+```
+---
+## Project Structure
+
+```
 RAGProject/
 ├─ rag/
 │  ├─ __init__.py
@@ -102,33 +103,42 @@ RAGProject/
 ├─ requirements.txt
 ├─ .env
 └─ README.md
-Deployment
+```
+---
+## Deployment
+
+```
 You can deploy this project on Render or any cloud provider:
-
 Make sure the FastAPI server runs with:
-
-bash
-Copy code
 uvicorn rag.main:app --host 0.0.0.0 --port $PORT
 Add CORS origins for your frontend domains.
-
 Set OPENAI_API_KEY in environment variables.
+```
+---
+## Notes
 
-Notes
-chunk_size and chunk_overlap in vector store creation are set to 700 and 90 respectively for optimal context retrieval.
+```
+   1.) chunk_size and chunk_overlap in vector store creation are set to 700 and 90 respectively for optimal context retrieval.
 
-Chat history is maintained globally for session-based context.
+   2.)Chat history is maintained globally for session-based context.
 
-Only PDF, TXT, and DOCX are supported.
+   3.)Only PDF, TXT, and DOCX are supported.
+```
+---
+## License
 
-License
+```
 This project is licensed under the MIT License.
+```
+---
+## Acknowledgements
 
-Acknowledgements
-LangChain – for building RAG pipelines
+```
+   LangChain – for building RAG pipelines
+   OpenAI– for embeddings and LLM
+   FastAPI– backend framework
+   Chroma– vector database
+```
 
-OpenAI – for embeddings and LLM
 
-FastAPI – backend framework
-
-Chroma – vector database
+   
